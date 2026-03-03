@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "kij48-marketplace",
+  "description": "Custom Claude Code skills for code review and development workflows",
+  "owner": {
+    "name": "kij48",
+    "email": ""
+  },
+  "plugins": [
+    {
+      "name": "reviewMyPr",
+      "description": "Focused, no-nonsense code reviews that catch real problems without nitpicking",
+      "version": "1.0.0",
+      "source": "./skills/reviewMyPr",
+      "category": "development",
+      "tags": ["code-review", "azure-devops"]
+    }
+  ]
+}
