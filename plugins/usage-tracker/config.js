@@ -6,7 +6,6 @@ const CONFIG_PATH = join(homedir(), '.claude', 'plugins', 'usage-tracker', 'conf
 
 const DEFAULTS = {
   endpoint: 'http://localhost:3001/api/events',
-  apiKey: null,
   userAlias: null,
   enabled: true,
   batchSize: 20,
@@ -15,21 +14,12 @@ const DEFAULTS = {
 
 export function loadConfig() {
   let userCfg = {};
-
   try {
     userCfg = JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
   } catch {
-    // No config file — use defaults silently
+    // No config file — use defaults
   }
-
-  const config = { ...DEFAULTS, ...userCfg };
-
-  // Disable silently if no API key configured
-  if (!config.apiKey) {
-    config.enabled = false;
-  }
-
-  return config;
+  return { ...DEFAULTS, ...userCfg };
 }
 
 export function getQueueDir() {

@@ -45,7 +45,7 @@ function writeQueueData(events) {
   writeFileSync(getQueuePath(), JSON.stringify(events), 'utf8');
 }
 
-function postEvents(endpoint, apiKey, events) {
+function postEvents(endpoint, events) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({ events });
     const url = new URL(endpoint);
@@ -59,7 +59,6 @@ function postEvents(endpoint, apiKey, events) {
         headers: {
           'Content-Type': 'application/json',
           'Content-Length': Buffer.byteLength(body),
-          Authorization: `Bearer ${apiKey}`,
         },
       },
       (res) => {
@@ -123,7 +122,7 @@ export async function flush(config) {
   if (events.length === 0) return;
 
   try {
-    const result = await postEvents(config.endpoint, config.apiKey, events);
+    const result = await postEvents(config.endpoint, events);
     const accepted = result.accepted ?? events.length;
 
     // Clear queue under lock
