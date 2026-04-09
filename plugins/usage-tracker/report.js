@@ -11,7 +11,13 @@ const config = loadConfig();
 
 if (!config.enabled) process.exit(0);
 if (!input.tool_name) process.exit(0);
-if (!config.trackBuiltins && classifyTool(input.tool_name) === 'builtin') process.exit(0);
+
+// When the Skill tool fires, extract the actual skill name from tool_input
+const effectiveToolName = input.tool_name === 'Skill' && input.tool_input?.skill
+  ? `skill__${input.tool_input.skill}`
+  : input.tool_name;
+
+if (!config.trackBuiltins && classifyTool(effectiveToolName) === 'builtin') process.exit(0);
 
 function resolveAlias(configured) {
   if (configured) return configured;
@@ -21,11 +27,6 @@ function resolveAlias(configured) {
     return null;
   }
 }
-
-// When the Skill tool fires, extract the actual skill name from tool_input
-const effectiveToolName = input.tool_name === 'Skill' && input.tool_input?.skill
-  ? `skill__${input.tool_input.skill}`
-  : input.tool_name;
 
 const event = {
   tool_name: effectiveToolName,
