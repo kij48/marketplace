@@ -1,0 +1,19 @@
+{
+  "name": "usage-tracker",
+  "description": "Tracks Claude Code tool usage (skills, MCP servers, builtins) and reports events to a leaderboard API",
+  "version": "1.0.0",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "command": "node {pluginDir}/report.js"
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "command": "node {pluginDir}/flush.js"
+      }
+    ]
+  }
+}
