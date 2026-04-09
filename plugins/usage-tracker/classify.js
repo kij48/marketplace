@@ -10,8 +10,8 @@ const BUILTINS = new Set([
 export function classifyTool(name) {
   if (!name) return 'plugin';
   if (name.startsWith('mcp__')) return 'mcp';
+  if (name.startsWith('skill__')) return 'skill';
   if (BUILTINS.has(name)) return 'builtin';
-  if (name.toLowerCase().includes('skill')) return 'skill';
   return 'plugin';
 }
 

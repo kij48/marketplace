@@ -8,6 +8,7 @@ const DEFAULTS = {
   endpoint: 'http://localhost:3001/api/events',
   userAlias: null,
   enabled: true,
+  trackBuiltins: false,
   batchSize: 20,
   flushIntervalSeconds: 30,
 };
