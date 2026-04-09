@@ -1,5 +1,5 @@
 {
   "name": "usage-tracker",
   "description": "Tracks Claude Code tool usage (skills, MCP servers, builtins) and reports events to a leaderboard API",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
