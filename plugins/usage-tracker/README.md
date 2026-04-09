@@ -8,7 +8,7 @@ Tracks tool usage in Claude Code and ships events to the leaderboard API.
 
 ```json
 {
-  "endpoint": "https://leaderboard.kjsoft.dk/api/events",
+  "endpoint": "https://your-leaderboard-api/api/events",
   "apiKey": "clb_your_api_key_here",
   "userAlias": "yourname",
   "enabled": true,
