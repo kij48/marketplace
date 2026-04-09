@@ -4,39 +4,32 @@ import { join } from 'path';
 
 const CONFIG_PATH = join(homedir(), '.claude', 'plugins', 'usage-tracker', 'config.json');
 
+const DEFAULTS = {
+  endpoint: 'http://localhost:3001/api/events',
+  apiKey: null,
+  userAlias: null,
+  enabled: true,
+  batchSize: 20,
+  flushIntervalSeconds: 30,
+};
+
 export function loadConfig() {
-  let raw;
+  let userCfg = {};
+
   try {
-    raw = readFileSync(CONFIG_PATH, 'utf8');
+    userCfg = JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
   } catch {
-    process.stderr.write(
-      `[usage-tracker] config not found at ${CONFIG_PATH}\n` +
-      `Create it with: { "endpoint": "...", "apiKey": "clb_..." }\n`
-    );
-    return null;
+    // No config file — use defaults silently
   }
 
-  let cfg;
-  try {
-    cfg = JSON.parse(raw);
-  } catch {
-    process.stderr.write(`[usage-tracker] invalid JSON in config: ${CONFIG_PATH}\n`);
-    return null;
+  const config = { ...DEFAULTS, ...userCfg };
+
+  // Disable silently if no API key configured
+  if (!config.apiKey) {
+    config.enabled = false;
   }
 
-  if (!cfg.endpoint || !cfg.apiKey) {
-    process.stderr.write(`[usage-tracker] config missing required fields: endpoint, apiKey\n`);
-    return null;
-  }
-
-  return {
-    endpoint: cfg.endpoint,
-    apiKey: cfg.apiKey,
-    userAlias: cfg.userAlias ?? null,
-    enabled: cfg.enabled ?? true,
-    batchSize: cfg.batchSize ?? 20,
-    flushIntervalSeconds: cfg.flushIntervalSeconds ?? 30,
-  };
+  return config;
 }
 
 export function getQueueDir() {
